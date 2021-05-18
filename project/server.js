@@ -70,21 +70,37 @@ const Product = sequelize.define('product', {
 sequelize.sync({ force: false })
     .then(() => {
         console.log("Database & tables created!");
+<<<<<<< HEAD
     }).then(function() {
         return Product.findAll();
     }).then(function(products) {
         console.log(products);
     }).then(function() {
+=======
+    }).then(function () {
+        return Product.findAll();
+    }).then(function (products) {
+        console.log(products);
+    }).then(function () {
+>>>>>>> 14829276917f25ad3fa4c8ba2a26807caa4d1e8a
         return Product.findOne();
     });
 
 //Insert multiple instances in bulk
 /*Product.bulkCreate([
+<<<<<<< HEAD
     { seller_id: "1", title: "LG", description: "LG G1 65 inch 4K", price: 2999, url: "https://www.lg.com/a", views: 4000, images: " ", comments: "Funciona", tags: "4k" },
     { seller_id: "2", title: "Samsung", description: "65” QN900A Samsung Neo QLED 8K", price: 4999, url: "https://www.samsung.com/", views: 10000, images: "nao Funciona", comments: "nao Funciona", tags: "8k" },
     { seller_id: "3", title: "LG", description: "LG C1 77 inch 4K", price: 2799, url: "https://www.lg.com/", views: 9000, images: " ", comments: "avariado", tags: "2k" },
     { seller_id: "4", title: "Samsung", description: "50 Class TU8000 Crystal UHD 4K", price: 469, url: "https://www.samsung.com/", views: 20000, images: "", comments: "desligado", tags: "20k" }
 
+=======
+    {seller_id:"1",title:"LG",description:"LG G1 65 inch 4K",price:2999,url:"https://www.lg.com/a",views:4000,images:"C:\Users\Mickael\Desktop\images\tvLg",comments:"Funciona",tags:"4k"},
+    {seller_id:"2",title:"Samsung",description:"65” QN900A Samsung Neo QLED 8K",price:4999,url:"https://www.samsung.com/",views:10000,images:"C:\Users\Mickael\Desktop\images\samsung",comments:"nao Funciona",tags:"8k"},
+    {seller_id:"3",title:"LG",description:"LG C1 77 inch 4K",price:2799,url:"https://www.lg.com/",views:9000,images:"C:\Users\Mickael\Desktop\images\TvLg",comments:"avariado",tags:"2k"},
+    {seller_id:"4",title:"Samsung",description:"50 Class TU8000 Crystal UHD 4K",price:469,url:"https://www.samsung.com/",views:20000,images:"C:\Users\Mickael\Desktop\images\samsung",comments:"desligado",tags:"20k"}
+    
+>>>>>>> 14829276917f25ad3fa4c8ba2a26807caa4d1e8a
 ]).then(function() {
     return product.findAll();
 }).then(function(products) {
@@ -143,18 +159,19 @@ app.put('/product/:id/incrementViews', (request, response) => {
 
 });
 //via query mostra tabela product  ao por o caminho tags 
-app.get('/product', (request, response) => {
-    Product.findAll({
+app.get('/product/tags', (request, response) => {
+    
+  if (request.query.tags != undefined)
+  {
+      Product.findAll({
         where: {
             tags: request.query.tags
         }
     }).then(product => {
         response.send(product);
-    }).catch(err => {
-        response.status(404).send("Not found: " + err);
-
     });
-
+  }
+   
 });
 //FIM DA PARTE A
 
@@ -162,8 +179,13 @@ app.get('/product', (request, response) => {
 //INICIO DA PARTE B
 
 //selecionar produto
+<<<<<<< HEAD
 app.get('/product/id', (request, response) => {
     //if (request.query.id != undefined) {
+=======
+app.get('/product',(request, response)=>{
+    
+>>>>>>> 14829276917f25ad3fa4c8ba2a26807caa4d1e8a
     Product.findOne({
         where: {
             id: request.query.id
@@ -186,8 +208,6 @@ app.delete('/product/:id', (request, response) => {
         response.status(400).send("Non user with this ID" + err);
     });
 });
-
-
 
 
 //fim da parte B

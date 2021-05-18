@@ -101,7 +101,10 @@
         }
       }
     },
-    "/product/{id}": {},
+    "/product/{id}": {
+
+      
+    },
     "definitions": {
       "product": {
         "type": "object",
