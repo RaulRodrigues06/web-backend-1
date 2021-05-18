@@ -6,13 +6,13 @@ const fs = require("fs");
 const { request } = require('http');
 const mysql2 = require('mysql2');
 const Sequelize = require('sequelize')
-//importar swagger
+    //importar swagger
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('./swagger.json');
 
 // instanciar o express
 const app = express()
-// definir a porta do servidor http
+    // definir a porta do servidor http
 const port = 3000
 
 
@@ -70,21 +70,21 @@ const Product = sequelize.define('product', {
 sequelize.sync({ force: false })
     .then(() => {
         console.log("Database & tables created!");
-    }).then(function () {
-        return product.findAll();
-    }).then(function (products) {
+    }).then(function() {
+        return Product.findAll();
+    }).then(function(products) {
         console.log(products);
-    }).then(function () {
-        return product.findOne();
+    }).then(function() {
+        return Product.findOne();
     });
 
 //Insert multiple instances in bulk
 /*Product.bulkCreate([
-    {seller_id:"1",title:"LG",description:"LG G1 65 inch 4K",price:2999,url:"https://www.lg.com/a",views:4000,images:" ",comments:"Funciona",tags:"4k"},
-    {seller_id:"2",title:"Samsung",description:"65” QN900A Samsung Neo QLED 8K",price:4999,url:"https://www.samsung.com/",views:10000,images:"nao Funciona",comments:"nao Funciona",tags:"8k"},
-    {seller_id:"3",title:"LG",description:"LG C1 77 inch 4K",price:2799,url:"https://www.lg.com/",views:9000,images:" ",comments:"avariado",tags:"2k"},
-    {seller_id:"4",title:"Samsung",description:"50 Class TU8000 Crystal UHD 4K",price:469,url:"https://www.samsung.com/",views:20000,images:"",comments:"desligado",tags:"20k"}
-    
+    { seller_id: "1", title: "LG", description: "LG G1 65 inch 4K", price: 2999, url: "https://www.lg.com/a", views: 4000, images: " ", comments: "Funciona", tags: "4k" },
+    { seller_id: "2", title: "Samsung", description: "65” QN900A Samsung Neo QLED 8K", price: 4999, url: "https://www.samsung.com/", views: 10000, images: "nao Funciona", comments: "nao Funciona", tags: "8k" },
+    { seller_id: "3", title: "LG", description: "LG C1 77 inch 4K", price: 2799, url: "https://www.lg.com/", views: 9000, images: " ", comments: "avariado", tags: "2k" },
+    { seller_id: "4", title: "Samsung", description: "50 Class TU8000 Crystal UHD 4K", price: 469, url: "https://www.samsung.com/", views: 20000, images: "", comments: "desligado", tags: "20k" }
+
 ]).then(function() {
     return product.findAll();
 }).then(function(products) {
@@ -95,7 +95,7 @@ sequelize.sync({ force: false })
 app.get('/product', (request, response) => {
 
     //var user = request.query.user;
-    product.findAll().then(product => {
+    Product.findAll().then(product => {
         response.send(product)
     });
 
@@ -162,19 +162,30 @@ app.get('/product', (request, response) => {
 //INICIO DA PARTE B
 
 //selecionar produto
-app.get('/product',(request, response)=>{
+app.get('/product/id', (request, response) => {
+    //if (request.query.id != undefined) {
     Product.findOne({
-        where:{
+        where: {
             id: request.query.id
         }
-    }).then(product =>{
+    }).then(product => {
         response.send(product)
     }).catch(err => {
         response.status(404).send("Not found: " + err);
-
     });
+    //}
 });
 
+//Delete Products Params
+app.delete('/product/:id', (request, response) => {
+    Product.destroy({
+        where: { id: request.params.id }
+    }).then(product => {
+        response.send("Product deleted " + product)
+    }).catch(err => {
+        response.status(400).send("Non user with this ID" + err);
+    });
+});
 
 
 
